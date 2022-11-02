@@ -3,7 +3,7 @@ import torch.utils.data
 import torchvision
 
 from .coco import build as build_coco
-
+from .strad_dataset import StradDetection, make_strad_transforms
 
 def get_coco_api_from_dataset(dataset):
     for _ in range(10):
@@ -29,3 +29,10 @@ def build_dataset(image_set, args):
         from .vanke import build_vanke
         return build_vanke(image_set, args)
     raise ValueError(f'dataset {args.dataset_file} not supported')
+
+def build_sv_ds(dataset_root, data_csv, strong_aug=False):
+    transforms = make_strad_transforms('train', fix_size=False, strong_aug=True)
+    dataset = StradDetection(data_csv, dataset_root, transforms=transforms) 
+                            #  transforms=make_coco_transforms(image_set, fix_size=args.fix_size, strong_aug=strong_aug)
+    return dataset
+

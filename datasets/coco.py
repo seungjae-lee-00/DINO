@@ -398,7 +398,6 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         if self.aux_target_hacks is not None:
             for hack_runner in self.aux_target_hacks:
                 target, img = hack_runner(target, img=img)
-
         return img, target
 
 
